@@ -1,0 +1,30 @@
+// This is the pseudocode for a bump allocator.
+
+// struct BumpAllocator
+-   memory //raw byte buffer
+-   capacity // total buffer in bytes
+-   offset // current position in buffer
+
+// constructor Initialize allocator (size)
+-   allocator.memory = allocate array of bytes (size)
+-   allocator.capacity = size
+-   allocator.offset = 0
+-   RETURN allocator 
+
+// method align_up (value, alignment)
+-   RETURN (value + alignment - 1) & ~(alignment - 1) 
+
+// method allocate (requested_size, alignment)
+-   aligned_offset = align_up(allocator.offset, alignment) // adjust current offset to prevent future misalignment
+-   new_offset = aligned_offset + requested_size // calc new allocation position
+-   if new_offset > allocator.capacity // check if sufficient space exist
+        RETURN null
+-   ptr = allocator.memory + aligned_offset // pointer to be returned
+-   allocator.offset = new_offset
+-   RETURN ptr
+
+// method deallocate
+-   free memory (manually in C++)
+
+// reset()
+-   set offset to 0
